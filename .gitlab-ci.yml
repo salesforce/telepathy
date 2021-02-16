@@ -1,0 +1,3 @@
+include:
+  - project: 'mce/mce-shared-builds'
+    file: '/templates/sbt.gitlab-ci.yml'
