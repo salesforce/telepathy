@@ -1,1 +1,1 @@
-addSbtPlugin("com.salesforce.mce" % "sbt-mce-champloo" % "[0.22.2,)")
+addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.6.0")

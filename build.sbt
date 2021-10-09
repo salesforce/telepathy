@@ -22,7 +22,13 @@ lazy val commonSettings = Seq(
   crossScalaVersions := supportedScalaVersions,
   libraryDependencies += scalaTestArtifact,
   organization := "com.salesforce.mce",
-  assembly / test := {}  // skip test during assembly
+  headerLicense := Some(HeaderLicense.Custom(
+  """|Copyright (c) 2021, salesforce.com, inc.
+     |All rights reserved.
+     |SPDX-License-Identifier: BSD-3-Clause
+     |For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+     |""".stripMargin
+  ))
 )
 
 lazy val root = (project in file(".")).
