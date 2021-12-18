@@ -3,7 +3,7 @@ lazy val scala213 = "2.13.6"
 lazy val supportedScalaVersions = List(scala212, scala213)
 
 val circeVersion = "0.13.0"
-val okHttpVersion = "4.9.1"
+val okHttpVersion = "4.9.3"
 
 val scalaTestArtifact = "org.scalatest" %% "scalatest" % "3.2.10" % Test
 // tool to simplify cross build https://docs.scala-lang.org/overviews/core/collections-migration-213.html
