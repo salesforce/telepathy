@@ -19,23 +19,23 @@ object HttpRequest {
 
   def request[Rsp: Decoder](url: HttpUrl, request: Request)(implicit
     setting: TelepathySetting
-  ): Either[Exception, Rsp] = {
+  ): Either[ErrorResponse, Rsp] = {
     val response = setting.buildClient().newCall(request).execute()
 
-    if (response.isSuccessful())
-      decode[Rsp](response.body().string())
-    else
-      Left(
-        new RuntimeException(s"Response not OK (${response.code()}, error ${response.message()}")
-      )
+    if (response.isSuccessful()) {
+      decode[Rsp](response.body().string()).left.map(e => ErrorResponse(-1, Left(e)))
+    } else
+      Left(ErrorResponse(response.code(), Right(response.message())))
   }
 
-  def get[Rsp: Decoder](url: HttpUrl)(implicit setting: TelepathySetting): Either[Exception, Rsp] =
+  def get[Rsp: Decoder](url: HttpUrl)(implicit
+    setting: TelepathySetting
+  ): Either[ErrorResponse, Rsp] =
     request(url, setting.requestBuilder(url).build())
 
   def put[Rsp: Decoder, D: Encoder](url: HttpUrl, data: D)(implicit
     setting: TelepathySetting
-  ): Either[Exception, Rsp] =
+  ): Either[ErrorResponse, Rsp] =
     request(
       url,
       setting
@@ -46,7 +46,7 @@ object HttpRequest {
 
   def post[Rsp: Decoder, D: Encoder](url: HttpUrl, data: D)(implicit
     setting: TelepathySetting
-  ): Either[Exception, Rsp] =
+  ): Either[ErrorResponse, Rsp] =
     request(
       url,
       setting
