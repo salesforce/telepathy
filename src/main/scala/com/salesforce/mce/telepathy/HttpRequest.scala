@@ -21,11 +21,12 @@ object HttpRequest {
     setting: TelepathySetting
   ): Either[ErrorResponse, Rsp] = {
     val response = setting.buildClient().newCall(request).execute()
+    val responseBody = response.body().string()
 
     if (response.isSuccessful()) {
-      decode[Rsp](response.body().string()).left.map(e => ErrorResponse(-1, Left(e)))
+      decode[Rsp](responseBody).left.map(e => ErrorResponse(-1, Left(e)))
     } else
-      Left(ErrorResponse(response.code(), Right(response.message())))
+      Left(ErrorResponse(response.code(), Right(responseBody)))
   }
 
   def get[Rsp: Decoder](url: HttpUrl)(implicit
