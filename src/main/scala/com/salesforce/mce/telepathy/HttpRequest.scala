@@ -56,4 +56,19 @@ object HttpRequest {
         .build()
     )
 
+  def delete[Rsp: Decoder, D: Encoder](url: HttpUrl, data: D)(implicit
+    setting: TelepathySetting
+  ): Either[ErrorResponse, Rsp] =
+    request(
+      url,
+      setting
+        .requestBuilder(url)
+        .delete(RequestBody.create(data.asJson.noSpaces, JsonContentType))
+        .build()
+    )
+
+  def delete[Rsp: Decoder](url: HttpUrl)(implicit
+    setting: TelepathySetting
+  ): Either[ErrorResponse, Rsp] = request(url, setting.requestBuilder(url).delete().build())
+
 }
