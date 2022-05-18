@@ -71,4 +71,14 @@ object HttpRequest {
     setting: TelepathySetting
   ): Either[ErrorResponse, Rsp] = request(url, setting.requestBuilder(url).delete().build())
 
+  def patch[Rsp: Decoder, D: Encoder](url: HttpUrl, data: D)(implicit
+    setting: TelepathySetting
+  ): Either[ErrorResponse, Rsp] = request(
+    url,
+    setting
+      .requestBuilder(url)
+      .patch(RequestBody.create(data.asJson.noSpaces, JsonContentType))
+      .build()
+  )
+
 }
