@@ -1,13 +1,13 @@
-lazy val scala212 = "2.12.16"
-lazy val scala213 = "2.13.8"
+lazy val scala212 = "2.12.18"
+lazy val scala213 = "2.13.11"
 lazy val supportedScalaVersions = List(scala212, scala213)
 
-val circeVersion = "0.14.2"
-val okHttpVersion = "4.10.0"
+val circeVersion = "0.14.5"
+val okHttpVersion = "4.11.0"
 
-val scalaTestArtifact = "org.scalatest" %% "scalatest" % "3.2.12" % Test
+val scalaTestArtifact = "org.scalatest" %% "scalatest" % "3.2.16" % Test
 // tool to simplify cross build https://docs.scala-lang.org/overviews/core/collections-migration-213.html
-val collectionCompact = "org.scala-lang.modules" %% "scala-collection-compat" % "2.7.0"
+val collectionCompact = "org.scala-lang.modules" %% "scala-collection-compat" % "2.11.0"
 val okhttpArtifact = "com.squareup.okhttp3" % "okhttp" % okHttpVersion
 
 lazy val publishSettings = Seq(
@@ -41,8 +41,7 @@ lazy val publishSettings = Seq(
 
 val circeArtifacts = Seq(
   "io.circe" %% "circe-parser",
-  "io.circe" %% "circe-generic",
-  "io.circe" %% "circe-generic-extras"
+  "io.circe" %% "circe-generic"
 ).map(_ % circeVersion)
 
 lazy val commonSettings = Seq(
