@@ -1,14 +1,16 @@
-lazy val scala212 = "2.12.19"
-lazy val scala213 = "2.13.14"
-lazy val supportedScalaVersions = List(scala212, scala213)
+import xerial.sbt.Sonatype.sonatypeCentralHost
 
-val circeVersion = "0.14.7"
-val okHttpVersion = "4.12.0"
+lazy val scala213 = "2.13.17"
+lazy val scala3 = "3.7.2"
+lazy val supportedScalaVersions = List(scala213, scala3)
 
-val scalaTestArtifact = "org.scalatest" %% "scalatest" % "3.2.18" % Test
-// tool to simplify cross build https://docs.scala-lang.org/overviews/core/collections-migration-213.html
-val collectionCompact = "org.scala-lang.modules" %% "scala-collection-compat" % "2.12.0"
-val okhttpArtifact = "com.squareup.okhttp3" % "okhttp" % okHttpVersion
+val circeVersion = "0.14.15"
+val okHttpVersion = "5.3.0"
+
+val scalaTestArtifact = "org.scalatest" %% "scalatest" % "3.2.19" % Test
+val okhttpArtifact = "com.squareup.okhttp3" % "okhttp-jvm" % okHttpVersion
+
+ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
 
 lazy val publishSettings = Seq(
   publishMavenStyle := true,
@@ -24,7 +26,7 @@ lazy val publishSettings = Seq(
   ),
   credentials += Credentials(
     "Sonatype Nexus Repository Manager",
-    "oss.sonatype.org",
+    "central.sonatype.org",
     sys.env.getOrElse("SONATYPE_USERNAME",""),
     sys.env.getOrElse("SONATYPE_PASSWORD","")
   ),
@@ -45,8 +47,15 @@ val circeArtifacts = Seq(
 ).map(_ % circeVersion)
 
 lazy val commonSettings = Seq(
-  scalacOptions ++= Seq("-deprecation", "-feature", "-Xlint"),
-  scalaVersion := scala212,
+  scalacOptions ++= {
+    scalaVersion.value match {
+      case sv if sv.startsWith("3.") =>
+        Seq("-deprecation", "-feature", "-Wall")
+      case _ =>
+        Seq("-deprecation", "-feature", "-Xlint")
+    }
+  },
+  scalaVersion := scala213,
   crossScalaVersions := supportedScalaVersions,
   libraryDependencies += scalaTestArtifact,
   organization := "com.salesforce.mce",
@@ -66,6 +75,5 @@ lazy val root = (project in file(".")).
     name := "telepathy",
     libraryDependencies ++= Seq(
       okhttpArtifact,
-      collectionCompact,
     ) ++ circeArtifacts
   )

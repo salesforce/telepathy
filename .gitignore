@@ -17,3 +17,9 @@ target/
 .settings/
 .cache
 classes/
+
+# scala-metals
+.bloop
+.bsp
+.metals
+metals.sbt

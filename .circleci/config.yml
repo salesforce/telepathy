@@ -1,6 +1,6 @@
 # Scala CircleCI 2.0 configuration file
 # See: https://circleci.com/docs/2.0/sample-config/
-version: 2
+version: 2.1
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
@@ -10,7 +10,7 @@ jobs:
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
+      - image: cimg/openjdk:11.0
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -48,7 +48,7 @@ jobs:
 
   publish:
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: cimg/openjdk:11.0
     steps:
       - checkout
       - run: gpg --version && (echo $PGP_SECRET | base64 --decode | gpg --import --no-tty --batch --yes) && gpg --list-secret-keys
