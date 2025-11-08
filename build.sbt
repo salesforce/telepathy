@@ -8,8 +8,6 @@ val circeVersion = "0.14.15"
 val okHttpVersion = "5.3.0"
 
 val scalaTestArtifact = "org.scalatest" %% "scalatest" % "3.2.19" % Test
-// tool to simplify cross build https://docs.scala-lang.org/overviews/core/collections-migration-213.html
-val collectionCompact = "org.scala-lang.modules" %% "scala-collection-compat" % "2.14.0"
 val okhttpArtifact = "com.squareup.okhttp3" % "okhttp-jvm" % okHttpVersion
 
 ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
@@ -77,6 +75,5 @@ lazy val root = (project in file(".")).
     name := "telepathy",
     libraryDependencies ++= Seq(
       okhttpArtifact,
-      collectionCompact,
     ) ++ circeArtifacts
   )
